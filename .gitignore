@@ -1,0 +1,8 @@
+
+src/src/images/french-bulldog.jpeg
+*.jpeg
+*.svg
+*.woff
+*.woff2
+*.ttf
+*.eot
