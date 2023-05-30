@@ -67,7 +67,7 @@ App = {
   },
 
   bindEvents: function() {
-    $(document).on('click', '.btn-adopt', App.handleAdopt);
+    $(document).on('click', '.btn-adopt', App.CustomerRegistration);
   },
 
   markAdopted: function() {
@@ -89,7 +89,7 @@ App = {
     
   },
 
-  handleAdopt: function(event) {
+  CustomerRegistration: function(event) {
     event.preventDefault();
 
     //var petId = parseInt($(event.target).data('id'));
