@@ -11,7 +11,7 @@ App = {
       for (i = 0; i < data.length; i ++) {
         petTemplate.find('.panel-title').text(data[i].name);
         petTemplate.find('img').attr('src', data[i].picture);
-        petTemplate.find('.pet-breed').text(data[i].breed);
+        petTemplate.find('.pet-breed').text(data[i].sex);
         petTemplate.find('.pet-age').text(data[i].age);
         petTemplate.find('.pet-location').text(data[i].location);
         petTemplate.find('.btn-adopt').attr('data-id', data[i].id);
@@ -59,7 +59,8 @@ App = {
       App.contracts.CustomerKYC.setProvider(App.web3Provider);
     
       // Use our contract to retrieve and mark the adopted pets
-      return App.markAdopted();
+      //return App.markAdopted();
+      console.log('markAdopted')
     });
     
     return App.bindEvents();
@@ -75,11 +76,11 @@ App = {
     App.contracts.CustomerKYC.deployed().then(function(instance) {
       CustomerKYCInstance = instance;
     
-      return CustomerKYCInstance.getAdopters.call();
-    }).then(function(adopters) {
-      for (i = 0; i < adopters.length; i++) {
-        if (adopters[i] !== '0x0000000000000000000000000000000000000000') {
-          $('.panel-pet').eq(i).find('button').text('Success').attr('disabled', true);
+      return CustomerKYCInstance.getCustomer.call();
+    }).then(function(customer) {
+      for (i = 0; i < customer.length; i++) {
+        if (customer[i] !== '0x0000000000000000000000000000000000000000') {
+          $('.panel-pet').eq(i).find('button').text('Accepted').attr('disabled', true);
         }
       }
     }).catch(function(err) {
@@ -91,26 +92,40 @@ App = {
   handleAdopt: function(event) {
     event.preventDefault();
 
-    var petId = parseInt($(event.target).data('id'));
+    //var petId = parseInt($(event.target).data('id'));
     var CustomerKYCInstance;
 
-    web3.eth.getAccounts(function(error, accounts) {
-      if (error) {
-        console.log(error);
-      }
+    // web3.eth.getAccounts(function(error, accounts) {
+    //   if (error) {
+    //     console.log(error);
+    //   }
     
-      var account = accounts[0];
+    //   var account = accounts[0];
+    //   console.log(`acc: ${account}`);
     
-      App.contracts.CustomerKYC.deployed().then(function(instance) {
-        CustomerKYCInstance = instance;
+    //   App.contracts.CustomerKYC.deployed().then(function(instance) {
+    //     CustomerKYCInstance = instance;
     
-        // Execute adopt as a transaction by sending account
-        return CustomerKYCInstance.adopt(petId, {from: account});
-      }).then(function(result) {
-        return App.markAdopted();
-      }).catch(function(err) {
-        console.log(err.message);
-      });
+    //     // Execute adopt as a transaction by sending account
+    //     return CustomerKYCInstance.registerCustomer('name X', "emailNameX@gmail.com");
+    //   }).then(function(result) {
+    //     // return App.markAdopted();
+    //     console.log(`After customer registration`)
+    //   }).catch(function(err) {
+    //     console.log(err.message);
+    //   });
+    // });
+
+    App.contracts.CustomerKYC.deployed().then(function(instance) {
+      CustomerKYCInstance = instance;
+  
+      // Execute adopt as a transaction by sending account
+      return CustomerKYCInstance.registerCustomer('name X', "emailNameX@gmail.com");
+    }).then(function(result) {
+      // return App.markAdopted();
+      console.log(`After customer registration`)
+    }).catch(function(err) {
+      console.log(err.message);
     });
     
   }
