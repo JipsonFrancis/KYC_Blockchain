@@ -1,8 +1,8 @@
-pragma solidity >=0.4.22 <0.7.0;
+pragma solidity ^0.5.0;
 
 contract Migrations {
   address public owner;
-  uint256 public last_completed_migration;
+  uint public last_completed_migration;
 
   modifier restricted() {
     if (msg.sender == owner) _;
